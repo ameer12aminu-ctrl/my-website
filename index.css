@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 226 30% 8%;
+    --foreground: 36 42% 95%;
+
+    --card: 38 43% 96%;
+    --card-foreground: 228 26% 12%;
+
+    --popover: 38 43% 96%;
+    --popover-foreground: 228 26% 12%;
+
+    --primary: 24 97% 62%;
+    --primary-foreground: 228 26% 12%;
+
+    --secondary: 228 24% 18%;
+    --secondary-foreground: 36 42% 95%;
+
+    --muted: 227 22% 14%;
+    --muted-foreground: 220 20% 76%;
+
+    --accent: 196 100% 76%;
+    --accent-foreground: 228 26% 12%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 224 19% 28%;
+    --input: 224 19% 28%;
+    --ring: 24 97% 62%;
+
+    --radius: 1rem;
+
+    --sidebar-background: 226 30% 10%;
+    --sidebar-foreground: 36 42% 95%;
+    --sidebar-primary: 24 97% 62%;
+    --sidebar-primary-foreground: 228 26% 12%;
+    --sidebar-accent: 196 100% 76%;
+    --sidebar-accent-foreground: 228 26% 12%;
+    --sidebar-border: 224 19% 28%;
+    --sidebar-ring: 24 97% 62%;
+
+    --gold-glow: 24 97% 62%;
+  }
+
+  .dark {
+    --background: 226 30% 8%;
+    --foreground: 36 42% 95%;
+    --card: 38 43% 96%;
+    --card-foreground: 228 26% 12%;
+    --popover: 38 43% 96%;
+    --popover-foreground: 228 26% 12%;
+    --primary: 24 97% 62%;
+    --primary-foreground: 228 26% 12%;
+    --secondary: 228 24% 18%;
+    --secondary-foreground: 36 42% 95%;
+    --muted: 227 22% 14%;
+    --muted-foreground: 220 20% 76%;
+    --accent: 196 100% 76%;
+    --accent-foreground: 228 26% 12%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 224 19% 28%;
+    --input: 224 19% 28%;
+    --ring: 24 97% 62%;
+    --sidebar-background: 226 30% 10%;
+    --sidebar-foreground: 36 42% 95%;
+    --sidebar-primary: 24 97% 62%;
+    --sidebar-primary-foreground: 228 26% 12%;
+    --sidebar-accent: 196 100% 76%;
+    --sidebar-accent-foreground: 228 26% 12%;
+    --sidebar-border: 224 19% 28%;
+    --sidebar-ring: 24 97% 62%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    background-image:
+      radial-gradient(circle at 18% 18%, hsl(var(--primary) / 0.3), transparent 24%),
+      radial-gradient(circle at 82% 22%, hsl(var(--accent) / 0.24), transparent 26%),
+      linear-gradient(hsl(var(--background) / 0.72), hsl(var(--background) / 0.88)),
+      url('./assets/page-background.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  @keyframes drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -14px, 0);
+    }
+  }
+
+  @keyframes tilt-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(12deg);
+    }
+    50% {
+      transform: translate3d(-10px, -18px, 0) rotate(8deg);
+    }
+  }
+
+  .reactive-highlight {
+    transition:
+      transform 300ms ease,
+      color 300ms ease,
+      text-shadow 300ms ease,
+      opacity 300ms ease;
+    text-shadow: 0 0 0 hsl(var(--accent) / 0);
+  }
+
+  .reactive-highlight:hover {
+    transform: translateY(-3px);
+    text-shadow: 0 0 30px hsl(var(--accent) / 0.45);
+  }
+
+  .freeform-surface {
+    background: linear-gradient(145deg, hsl(var(--background) / 0.56), hsl(var(--secondary) / 0.42));
+    border: 1px solid hsl(var(--border) / 0.32);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 24px 80px -34px hsl(var(--background) / 0.92);
+  }
+
+  .drift {
+    animation: drift 8s ease-in-out infinite;
+  }
+
+  .floating-book {
+    animation: tilt-float 7s ease-in-out infinite;
+  }
+
+  /* Border tracer animation */
+  @property --border-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .border-tracer-active {
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-image:
+      linear-gradient(hsl(var(--background)), hsl(var(--background))),
+      conic-gradient(
+        from var(--border-angle),
+        transparent 60%,
+        hsl(var(--accent)) 80%,
+        hsl(var(--primary)) 100%
+      );
+    animation: border-trace 1.5s linear forwards;
+  }
+
+  @keyframes border-trace {
+    to {
+      --border-angle: 360deg;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drift,
+    .floating-book,
+    .reactive-highlight {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* Override Kit/ConvertKit subscribe button to match accent color */
+  [data-uid] button,
+  [data-uid] input[type="submit"],
+  .formkit-submit {
+    background-color: hsl(var(--accent)) !important;
+    color: hsl(var(--accent-foreground)) !important;
+  }
+}
+
